@@ -1,7 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 
-export const App = () => {
-    return (
-        <h1>fwfwef</h1>
-    )
-};
+class App extends Component {
+    render() {
+        return (
+            <h1>dwqef</h1>
+        );
+    }
+}
+
+export default App;
