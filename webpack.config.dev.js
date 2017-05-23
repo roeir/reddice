@@ -1,12 +1,12 @@
-import path from 'path';
-import webpack from 'webpack';
+const path = require('path');
+const webpack = require('webpack');
 
-export default {
+module.exports = {
     devtool: 'cheap-eval-source-map',
     entry: [
         'react-hot-loader/patch',
         'webpack-hot-middleware/client',
-        path.join(__dirname, '/client/index.js')
+        './client/index.js'
     ],
     output: {
         path: '/',
@@ -14,8 +14,8 @@ export default {
         filename: 'bundle.js'
     },
     plugins: [
-        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoEmitOnErrorsPlugin(),
         new webpack.NamedModulesPlugin()
     ],
     module: {
@@ -24,7 +24,7 @@ export default {
                 test: /\.js$/,
                 include: path.join(__dirname, 'client'),
                 exclude: /node_modules/,
-                loader: ['babel-loader']
+                loader: 'babel-loader'
             }
         ]
     }

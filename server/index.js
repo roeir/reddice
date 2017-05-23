@@ -1,9 +1,9 @@
-import express from 'express';
-import path from 'path';
-import webpack from 'webpack';
-import webpackDevMiddleware from 'webpack-dev-middleware';
-import webpackHotMiddleware from 'webpack-hot-middleware';
-import webpackConfig from '../webpack.config.dev';
+const express = require('express');
+const path = require('path');
+const webpack = require('webpack');
+const webpackDevMiddleware = require('webpack-dev-middleware');
+const webpackHotMiddleware = require('webpack-hot-middleware');
+const webpackConfig = require('../webpack.config.dev');
 
 const app = express();
 const compiler = webpack(webpackConfig);
@@ -19,4 +19,9 @@ app.get('/*', (req, res) => {
     res.sendFile(path.join(__dirname, './index.html'));
 });
 
-app.listen(3000, () => console.log('Runnig on localhost:3000'));
+app.listen(3000, err => {
+    if (err) {
+        return console.error(err);
+    }
+    console.log('Listening at http://localhost:3000/');
+});
