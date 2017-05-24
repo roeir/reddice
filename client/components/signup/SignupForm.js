@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import timezones from '../../data/timezones';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
+import classnames from 'classnames';
 
 class SignupForm extends Component {
     static propTypes = {
@@ -13,7 +14,9 @@ class SignupForm extends Component {
         email: '',
         password: '',
         passwordConfirmation: '',
-        timezone: ''
+        timezone: '',
+        errors: {},
+        isLoading: false
     };
 
     handleInputChange = (event) => {
@@ -24,7 +27,18 @@ class SignupForm extends Component {
 
     handleFormSubmit = (event) => {
         event.preventDefault();
-        this.props.userSignupRequest(this.state);
+        this.setState({
+            errors: {},
+            isLoading: true
+        });
+        this.props.userSignupRequest(this.state)
+            .then((data) => console.log(data))
+            .catch(({ response }) => {
+                this.setState({
+                    errors: response.data,
+                    isLoading: false
+                });
+            });
     };
 
     render() {
@@ -42,11 +56,13 @@ class SignupForm extends Component {
             );
         });
 
+        const { errors } = this.state;
+
         return (
             <form onSubmit={ this.handleFormSubmit }>
                 <h1>Join our community!</h1>
 
-                <div className="form-group">
+                <div className={classnames("form-group", {'has-error': errors.username})}>
                     <label className="control-label">
                         Username
                     </label>
@@ -57,9 +73,10 @@ class SignupForm extends Component {
                         name="username"
                         className="form-control"
                     />
+                    { errors.username && <span className="help-block">{ errors.username }</span> }
                 </div>
 
-                <div className="form-group">
+                <div className={classnames("form-group", {'has-error': errors.email})}>
                     <label className="control-label">
                         Email
                     </label>
@@ -70,9 +87,10 @@ class SignupForm extends Component {
                         name="email"
                         className="form-control"
                     />
+                    { errors.email && <span className="help-block">{ errors.email }</span> }
                 </div>
 
-                <div className="form-group">
+                <div className={classnames("form-group", {'has-error': errors.password})}>
                     <label className="control-label">
                         Password
                     </label>
@@ -83,9 +101,10 @@ class SignupForm extends Component {
                         name="password"
                         className="form-control"
                     />
+                    { errors.password && <span className="help-block">{ errors.password }</span> }
                 </div>
 
-                <div className="form-group">
+                <div className={classnames("form-group", {'has-error': errors.passwordConfirmation})}>
                     <label className="control-label">
                         Password Confirmation
                     </label>
@@ -96,9 +115,10 @@ class SignupForm extends Component {
                         name="passwordConfirmation"
                         className="form-control"
                     />
+                    { errors.passwordConfirmation && <span className="help-block">{ errors.passwordConfirmation }</span> }
                 </div>
 
-                <div className="form-group">
+                <div className={classnames("form-group", {'has-error': errors.timezone})}>
                     <label className="control-label">
                         Timezone
                     </label>
@@ -111,10 +131,11 @@ class SignupForm extends Component {
                         <option value="" disabled>Choose your timezone</option>
                         { options }
                     </select>
+                    { errors.timezone && <span className="help-block">{ errors.timezone }</span> }
                 </div>
 
                 <div className="form-group">
-                    <button className="btn btn-primary btn-lg">
+                    <button disabled={ this.state.isLoading } className="btn btn-primary btn-lg">
                         Sign up
                     </button>
                 </div>

@@ -1,11 +1,18 @@
 const express = require('express');
 const path = require('path');
+const bodyParser = require('body-parser');
 const webpack = require('webpack');
 const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.dev');
+const users = require('./routes/users');
 
 const app = express();
+
+app.use(bodyParser.json());
+
+app.use('/api/users', users);
+
 const compiler = webpack(webpackConfig);
 
 app.use(webpackDevMiddleware(compiler, {
