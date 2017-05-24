@@ -1,11 +1,14 @@
 import React from 'react';
+import SignupForm from './SignupForm';
 
-const Home = () => {
+const SignupPage = () => {
     return (
-        <div className="jumbotron">
-            <h1>Signup Page</h1>
+        <div className="row">
+            <div className="col-md-4 col-md-offset-4">
+                <SignupForm />
+            </div>
         </div>
     );
 };
 
-export default Home;
+export default SignupPage;
