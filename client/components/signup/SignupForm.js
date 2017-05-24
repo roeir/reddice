@@ -1,8 +1,13 @@
 import React, { Component } from 'react';
 import timezones from '../../data/timezones';
 import map from 'lodash/map';
+import PropTypes from 'prop-types';
 
 class SignupForm extends Component {
+    static propTypes = {
+        userSignupRequest: PropTypes.func.isRequired
+    };
+
     state = {
         username: '',
         email: '',
@@ -19,7 +24,7 @@ class SignupForm extends Component {
 
     handleFormSubmit = (event) => {
         event.preventDefault();
-        console.log(this.state);
+        this.props.userSignupRequest(this.state);
     };
 
     render() {

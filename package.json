@@ -7,13 +7,17 @@
   },
   "license": "MIT",
   "dependencies": {
+    "axios": "^0.16.1",
     "babel-plugin-transform-class-properties": "^6.24.1",
     "express": "^4.15.3",
     "lodash": "^4.17.4",
     "prop-types": "^15.5.10",
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
-    "react-router-dom": "^4.1.1"
+    "react-redux": "^5.0.5",
+    "react-router-dom": "^4.1.1",
+    "redux": "^3.6.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
