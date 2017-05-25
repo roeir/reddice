@@ -9,7 +9,8 @@ import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends Component {
     static propTypes = {
-        userSignupRequest: PropTypes.func.isRequired.email,
+        userSignupRequest: PropTypes.func.isRequired,
+        addFlashMessage: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
 
@@ -39,6 +40,10 @@ class SignupForm extends Component {
             this.props.userSignupRequest(this.state)
                 .then(({ data }) => {
                     if(data.success) {
+                        this.props.addFlashMessage({
+                            type: 'success',
+                            text: 'You have sign up successfully. Welcome!'
+                        });
                         this.props.history.push('/');
                     }
                 })

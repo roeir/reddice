@@ -1,15 +1,19 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Route} from 'react-router-dom';
 import { Provider } from 'react-redux';
-import { applyMiddleware, createStore } from 'redux';
+import { applyMiddleware, createStore, compose } from 'redux';
 import thunk from 'redux-thunk';
+import rootReducer from '../reducers';
 import NavigationBar from './NavigationBar';
 import Home from './Home';
 import Signup from './signup/SignupPage';
 
 const store = createStore(
-    (store = {}) => store,
-    applyMiddleware(thunk)
+    rootReducer,
+    compose(
+        applyMiddleware(thunk),
+        window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    )
 );
 
 class App extends Component {
