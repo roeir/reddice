@@ -7,6 +7,7 @@ import rootReducer from '../reducers';
 import NavigationBar from './NavigationBar';
 import Home from './Home';
 import Signup from './signup/SignupPage';
+import FlashMessagesList from './flash/FlashMessagesList';
 
 const store = createStore(
     rootReducer,
@@ -23,6 +24,7 @@ class App extends Component {
                 <Router>
                     <div className="container">
                         <NavigationBar />
+                        <FlashMessagesList/>
                         <Route exact path="/" component={ Home } />
                         <Route path="/signup" component={ Signup } />
                     </div>
