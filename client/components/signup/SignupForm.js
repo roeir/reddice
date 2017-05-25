@@ -3,12 +3,14 @@ import timezones from '../../data/timezones';
 import map from 'lodash/map';
 import PropTypes from 'prop-types';
 import classnames from 'classnames';
+import { withRouter } from 'react-router-dom';
 import validateInput  from '../../../server/shared/validations/signup';
 import TextFieldGroup from '../common/TextFieldGroup';
 
 class SignupForm extends Component {
     static propTypes = {
-        userSignupRequest: PropTypes.func.isRequired
+        userSignupRequest: PropTypes.func.isRequired.email,
+        history: PropTypes.object.isRequired
     };
 
     state = {
@@ -35,7 +37,11 @@ class SignupForm extends Component {
                 isLoading: true
             });
             this.props.userSignupRequest(this.state)
-                .then((data) => console.log(data))
+                .then(({ data }) => {
+                    if(data.success) {
+                        this.props.history.push('/');
+                    }
+                })
                 .catch(({ response }) => {
                     this.setState({
                         errors: response.data,
@@ -81,7 +87,6 @@ class SignupForm extends Component {
                     label="Username"
                     error={ errors.username }
                 />
-
                 <TextFieldGroup
                     value={ email }
                     onChange={ this.handleInputChange }
@@ -89,7 +94,6 @@ class SignupForm extends Component {
                     label="Email"
                     error={ errors.email }
                 />
-
                 <TextFieldGroup
                     value={ password }
                     onChange={ this.handleInputChange }
@@ -97,7 +101,6 @@ class SignupForm extends Component {
                     label="Password"
                     error={ errors.password }
                 />
-
                 <TextFieldGroup
                     value={ passwordConfirmation }
                     onChange={ this.handleInputChange }
@@ -132,4 +135,4 @@ class SignupForm extends Component {
     }
 }
 
-export default SignupForm;
+export default withRouter(SignupForm);

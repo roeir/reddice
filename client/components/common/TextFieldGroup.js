@@ -8,7 +8,7 @@ const TextFieldGroup = (props) => {
     return (
         <div className={classnames("form-group", {'has-error': error})}>
             <label className="control-label">
-                Username
+                { label }
             </label>
             <input
                 value={ value }
