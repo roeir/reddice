@@ -24,7 +24,7 @@ class App extends Component {
                 <Router>
                     <div className="container">
                         <NavigationBar />
-                        <FlashMessagesList/>
+                        <FlashMessagesList />
                         <Route exact path="/" component={ Home } />
                         <Route path="/signup" component={ Signup } />
                     </div>

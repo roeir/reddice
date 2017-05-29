@@ -6,8 +6,11 @@ const webpackDevMiddleware = require('webpack-dev-middleware');
 const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.dev');
 const users = require('./routes/users');
+const database = require('./config/database');
 
 const app = express();
+
+database.connect();
 
 app.use(bodyParser.json());
 
