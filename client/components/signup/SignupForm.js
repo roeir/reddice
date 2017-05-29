@@ -10,6 +10,7 @@ import TextFieldGroup from '../common/TextFieldGroup';
 class SignupForm extends Component {
     static propTypes = {
         userSignupRequest: PropTypes.func.isRequired,
+        isUserExists: PropTypes.func.isRequired,
         addFlashMessage: PropTypes.func.isRequired,
         history: PropTypes.object.isRequired
     };
@@ -21,6 +22,7 @@ class SignupForm extends Component {
         passwordConfirmation: '',
         timezone: '',
         errors: {},
+        invalid: false,
         isLoading: false
     };
 
@@ -56,6 +58,31 @@ class SignupForm extends Component {
         }
     };
 
+    checkUserExists = (event) => {
+        const field = event.target.name;
+        const value = event.target.value;
+        const errors = this.state.errors;
+        if(!value.trim().length) {
+            errors[field] = '';
+            this.setState({
+                errors,
+                invalid: false
+            });
+            return;
+        }
+        this.props.isUserExists(value).then(({ data }) => {
+            if(data) {
+                errors[field] = 'There is user with such ' + field;
+            } else {
+                errors[field] = '';
+            }
+            this.setState({
+                errors,
+                invalid: true
+            });
+        });
+    };
+
     isValid() {
         const { errors, isValid } = validateInput(this.state);
         if(!isValid) {
@@ -88,12 +115,14 @@ class SignupForm extends Component {
                 <TextFieldGroup
                     value={ username }
                     onChange={ this.handleInputChange }
+                    checkUserExists={ this.checkUserExists }
                     name="username"
                     label="Username"
                     error={ errors.username }
                 />
                 <TextFieldGroup
                     value={ email }
+                    checkUserExists={ this.checkUserExists }
                     onChange={ this.handleInputChange }
                     name="email"
                     label="Email"
@@ -131,7 +160,7 @@ class SignupForm extends Component {
                 </div>
 
                 <div className="form-group">
-                    <button disabled={ this.state.isLoading } className="btn btn-primary btn-lg">
+                    <button disabled={ this.state.isLoading || this.state.invalid } className="btn btn-primary btn-lg">
                         Sign up
                     </button>
                 </div>
