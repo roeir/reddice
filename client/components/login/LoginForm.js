@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
 import { login } from '../../actions/login';
-import { addFlashMessage } from '../../actions/flashMessages';
+// import { addFlashMessage } from '../../actions/flashMessages';
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../../server/shared/validations/login';
 
@@ -45,16 +45,12 @@ class LoginForm extends Component {
                 isLoading: true
             });
             this.props.login(this.state).then(({ data }) => {
-                if (data.success) {
-                    this.props.addFlashMessage({
-                        type: 'success',
-                        text: 'You have login successfully. Welcome!'
-                    });
+                if (data.token) {
                     this.props.history.push('/');
                 }
-            }).catch(({ response }) => {
+            }).catch(({ response: { data } }) => {
                 this.setState({
-                    errors: response.data,
+                    errors: data.errors,
                     isLoading: false
                 });
             });
@@ -67,6 +63,7 @@ class LoginForm extends Component {
         return (
             <form onSubmit={ this.onSubmit }>
                 <h1>Login</h1>
+                { errors.form && <div className="alert alert-danger" >{ errors.form }</div> }
                 <TextFieldGroup
                     name="ident"
                     value={ ident }
