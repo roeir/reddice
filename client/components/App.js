@@ -9,6 +9,9 @@ import Home from './Home';
 import Signup from './signup/SignupPage';
 import Login from './login/LoginPage';
 import FlashMessagesList from './flash/FlashMessagesList';
+import { setCurrentUser } from '../actions/authActions';
+import setAuthToken from '../utils/authToken';
+import decodeToken from 'jsonwebtoken/decode';
 
 const store = createStore(
     rootReducer,
@@ -17,6 +20,12 @@ const store = createStore(
         window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
     )
 );
+
+if(localStorage['loginToken']) {
+    const token = localStorage.getItem('loginToken');
+    setAuthToken(token);
+    store.dispatch(setCurrentUser(decodeToken(token)));
+}
 
 class App extends Component {
     render() {

@@ -2,8 +2,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import { withRouter } from 'react-router-dom';
-import { login } from '../../actions/login';
-// import { addFlashMessage } from '../../actions/flashMessages';
+import { login } from '../../actions/authActions';
 import TextFieldGroup from '../common/TextFieldGroup';
 import validateInput from '../../../server/shared/validations/login';
 
@@ -44,10 +43,8 @@ class LoginForm extends Component {
                 errors: {},
                 isLoading: true
             });
-            this.props.login(this.state).then(({ data }) => {
-                if (data.token) {
-                    this.props.history.push('/');
-                }
+            this.props.login(this.state).then(() => {
+                this.props.history.push('/');
             }).catch(({ response: { data } }) => {
                 this.setState({
                     errors: data.errors,
