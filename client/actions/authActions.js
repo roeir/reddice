@@ -21,3 +21,11 @@ export const login = (userData) => {
             });
     };
 };
+
+export const logout = () => {
+  return dispatch => {
+    localStorage.removeItem('loginToken');
+    setAuthToken(false);
+    dispatch(setCurrentUser({}));
+  }
+};
