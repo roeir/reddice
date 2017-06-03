@@ -7,6 +7,7 @@ const webpackHotMiddleware = require('webpack-hot-middleware');
 const webpackConfig = require('../webpack.config.dev');
 const users = require('./routes/users');
 const auth = require('./routes/auth');
+const events = require('./routes/events');
 const database = require('./config/database');
 
 const app = express();
@@ -17,6 +18,7 @@ app.use(bodyParser.json());
 
 app.use('/api/users', users);
 app.use('/api/auth', auth);
+app.use('/api/events', events);
 
 const compiler = webpack(webpackConfig);
 
