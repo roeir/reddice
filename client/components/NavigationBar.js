@@ -21,6 +21,9 @@ const NavigationBar = (props) => {
   const userLinks = (
     <ul className="nav navbar-nav navbar-right">
       <li>
+        <NavLink to="/new-event">New Event</NavLink>
+      </li>
+      <li>
         <a href="#" onClick={ (event) => { event.preventDefault(); props.logout() }  }>Logout</a>
       </li>
     </ul>

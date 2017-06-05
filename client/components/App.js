@@ -12,7 +12,8 @@ import NewEventPage from './events/NewEventPage';
 import FlashMessagesList from './flash/FlashMessagesList';
 import {setCurrentUser} from '../actions/authActions';
 import setAuthToken from '../utils/authToken';
-import decodeToken from 'jsonwebtoken/decode';
+import decodeToken from 'jwt-decode';
+import requireAuth from '../utils/requireAuth';
 
 const store = createStore(
   rootReducer,
@@ -46,7 +47,7 @@ class App extends Component {
             <Route exact path="/" component={ Home }/>
             <Route path="/signup" component={ Signup }/>
             <Route path="/login" component={ Login }/>
-            <Route path="/new-event" component={ NewEventPage } />
+            <Route path="/new-event" component={ requireAuth(NewEventPage) } />
           </div>
         </Router>
       </Provider>
